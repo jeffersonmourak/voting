@@ -8,7 +8,7 @@ export default function Home() {
   const votingOption = process.env.NEXT_PUBLIC_OPTION;
   const toPhoneNumber = process.env.NEXT_PUBLIC_PHONE;
 
-  const votingHref = `sms:+1${toPhoneNumber}&body=${votingOption}`;
+  const votingHref = `sms:+1${toPhoneNumber}?body=${votingOption}`;
 
   return (
     <div className={styles.container}>
