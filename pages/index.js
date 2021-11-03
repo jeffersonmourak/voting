@@ -35,7 +35,7 @@ export default function Home() {
             Vote Now
           </a>
         )}
-        {!isVotingOpen && <h3>The voting will begin soon!</h3>}
+        {!isVotingOpen && <h3>The voting will begin soon! </h3>}
 
         {!isMobile && (
           <Image
