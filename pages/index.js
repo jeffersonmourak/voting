@@ -3,12 +3,35 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { isMobile } from "react-device-detect";
 
+function iOS() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+  return (
+    [
+      "iPad Simulator",
+      "iPhone Simulator",
+      "iPod Simulator",
+      "iPad",
+      "iPhone",
+      "iPod",
+    ].includes(window.navigator.platform) ||
+    // iPad on iOS 13 detection
+    (window.navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  );
+}
+
 export default function Home() {
   const isVotingOpen = process.env.NEXT_PUBLIC_VOTING == "true";
   const votingOption = process.env.NEXT_PUBLIC_OPTION;
   const toPhoneNumber = process.env.NEXT_PUBLIC_PHONE;
 
-  const votingHref = `sms:+1${toPhoneNumber}?body=${votingOption}`;
+  const votingHref = () =>
+    `sms:+1${toPhoneNumber}${iOS() ? "&" : "?"}body=${votingOption}`;
+
+  const openUrl = () => {
+    window.open(votingHref(), "_blank");
+  };
 
   return (
     <div className={styles.container}>
@@ -31,7 +54,7 @@ export default function Home() {
         <h1 className={styles.title}>Caregiver App</h1>
 
         {isVotingOpen && (
-          <a href={votingHref} className={styles.button}>
+          <a href="#" onClick={openUrl} className={styles.button}>
             Vote Now
           </a>
         )}
@@ -52,7 +75,6 @@ export default function Home() {
               width="500"
               height="600"
               objectFit="contain"
-              
             />
           </div>
         )}
